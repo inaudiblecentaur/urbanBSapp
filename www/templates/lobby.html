@@ -1,0 +1,9 @@
+<ion-view view-title="Lobby">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="game in games" href="#/app/games/{{game.id}}">
+        {{game.name}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
