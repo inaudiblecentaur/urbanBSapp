@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ngCordova'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
   // Form data for the login modal
@@ -32,6 +32,7 @@ angular.module('starter.controllers', [])
     }, 1000);
   };
 })
+
 .controller('LobbyCtrl', function($scope, $stateParams) {
   // for viewing purposes only, will be removed when functionality is added -Kir
   $scope.games = [
@@ -49,4 +50,18 @@ angular.module('starter.controllers', [])
   $scope.name = "Example's game";
   $scope.dealer = "Kyle";
   $scope.word = {title: "24-Hour Ice", dictionaryDef: "when you're pissed at your significant other, so you don't communicate with them for twenty four hours"};
+})
+.controller('LoginCtrl', function($scope, $cordovaOauth){
+  $scope.test = "hello!"
+  $scope.login = function() {
+    console.log("Login!");
+    $cordovaOauth.facebook("1592322804384728", ["email"]).then(function(result) {
+      var accessToken = result.access_token;
+      console.log(accessToken);
+      console.dir(result);
+    }, function(error) {
+      alert("There was a problem signing in!  See the console for logs.");
+      console.log(error);
+    });
+  };
 });
