@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['starter.services'])
+angular.module('starter.controllers', ['ngCordova'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
   // Form data for the login modal
@@ -43,7 +43,7 @@ angular.module('starter.controllers', ['starter.services'])
       console.log(data);
     });
 
-     
+
 
 })
 
@@ -61,7 +61,7 @@ angular.module('starter.controllers', ['starter.services'])
            'Content-Type': 'application/json',
          },
 
-         data: {"name": $scope.gameObj.gameName, "players": $scope.invitedPlayers, "currentQuestion": "null", 
+         data: {"name": $scope.gameObj.gameName, "players": $scope.invitedPlayers, "currentQuestion": "null",
                 "round": 0, "roundLimit": $scope.gameObj.roundLimit, "dealer": "null"}
         }
 
@@ -99,10 +99,10 @@ angular.module('starter.controllers', ['starter.services'])
       });
     };
 
-   
+
 
     $scope.getPlayers();
-    
+
 
 })
 
@@ -150,7 +150,7 @@ angular.module('starter.controllers', ['starter.services'])
     },
 
       $scope.getInvites = function() {
-      
+
       var url = 'http://urbanbs.herokuapp.com/invites'
       console.log('inviting players')
       $http.get(url)
@@ -201,27 +201,24 @@ angular.module('starter.controllers', ['starter.services'])
       templateUrl: 'templates/dealer.html'
     };
   })
-
-
-  .controller('LoginCtrl', function ($scope, $state, facebook) {
-    $scope.fbLogin = facebook.fbLogin;
-
-    $scope.getLoginStatus = facebook.getLoginStatus;
-    $scope.getCookie = function (c_name) {
+.controller('LoginCtrl', function($scope, $cordovaOauth){
+  $scope.test = "hello!"
+  $scope.login = function() {
+    console.log("Login!");
+    $cordovaOauth.facebook("1592322804384728", ["email"]).then(function(result) {
+      var accessToken = result.access_token;
+      console.log(accessToken);
+      console.dir(result);
+    }, function(error) {
+      alert("There was a problem signing in!  See the console for logs.");
+      console.log(error);
+    });
+  };
+  $scope.getCookie = function(c_name) {
       console.log(localStorage);
     if (typeof localStorage != "undefined") {
     //    return localStorage.getItem(c_name);
     console.log(localStorage);
     }
-    // else {
-    //     var c_start = document.cookie.indexOf(c_name + "=");
-    //     if (document.cookie.length > 0) {
-    //         if (c_start !== -1) {
-    //             return getCookieSubstring(c_start, c_name);
-    //         }
-    //     }
-    //     return "";
-    // }
-}
-    
-  });
+  };
+});

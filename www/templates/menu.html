@@ -18,7 +18,10 @@
     </ion-header-bar>
     <ion-content>
       <ion-list>
-        <ion-item nav-clear menu-close href="#/app/lobby">
+        <ion-item nav-clear menu-close ng-click="login()" ng-show="true">
+          Login
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/lobby" ng-show="true">
           Lobby
         </ion-item>
         <ion-item nav-clear menu-close href="#/app/login">
