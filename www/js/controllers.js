@@ -42,9 +42,6 @@ angular.module('starter.controllers', ['ngCordova'])
     .error(function(data, status, headers, config) {
       console.log(data);
     });
-
-
-
 })
 
 .controller('CreateCtrl', function($scope, $stateParams, $http, Game, Players, facebook) {
@@ -149,7 +146,7 @@ angular.module('starter.controllers', ['ngCordova'])
 
     },
 
-      $scope.getInvites = function() {
+    $scope.getInvites = function() {
 
       var url = 'http://urbanbs.herokuapp.com/invites'
       console.log('inviting players')
@@ -168,6 +165,7 @@ angular.module('starter.controllers', ['ngCordova'])
           console.log('error')
         });
     };
+  })
 
     $scope.voteTrue = function() {
       console.log(localStorage);
@@ -193,9 +191,6 @@ angular.module('starter.controllers', ['ngCordova'])
     }
 
 })
-
-
-
   .directive('dealerView', function() {
     return {
       templateUrl: 'templates/dealer.html'
