@@ -1,8 +1,27 @@
 <ion-view view-title="Lobby">
   <ion-content>
+  <button class="button button-full button-positive">
+    Create New Game
+  </button>
     <ion-list>
       <ion-item ng-repeat="game in games" href="#/app/games/{{game.id}}">
+      <i class="icon ion-person-stalker"></i>
         {{game.name}}
+        <span class="secondaryGameInfo pull-right">Round {{game.round}}</span>
+      </ion-item>
+    </ion-list>
+    <div class="item item-divider">
+      Invitations
+    </div>
+    <ion-list>
+      <ion-item ng-repeat="invite in invitations">
+        from {{invite.name}}<br>
+        <button class="button button-balanced button-small">
+          Join
+        </button>
+        <button class="button button-assertive button-small">
+          Ignore
+        </button>
       </ion-item>
     </ion-list>
   </ion-content>
