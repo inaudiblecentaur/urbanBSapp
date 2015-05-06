@@ -92,7 +92,7 @@ oauthApp.run(function ($rootScope, $cookieStore, $state) {
             }
         } else if (next.name === "welcome") {
             event.preventDefault();
-            $state.go('dashboard');
+            $state.go('lobby');
         }
     });
 });

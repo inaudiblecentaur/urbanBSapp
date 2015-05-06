@@ -1,4 +1,4 @@
-angular.module('starter.services', ['ngResource', 'ngCookies'])
+angular.module('starter.services', ['ngCookies'])
 
 // .factory('Question', function($resource) {
 //   return $resource('http://localhost:3000/questions/:qId');
@@ -15,6 +15,21 @@ angular.module('starter.services', ['ngResource', 'ngCookies'])
       kir: {username: 'kir jarchow', fbToken: 'bbbb', totalScore: 1, profileImage: 'url1', isDealer: false},
       kyle: {username: 'kyle shockey', fbToken: 'cccc', totalScore: 2, profileImage: 'url2', isDealer: false},
       raymond: {username: 'raymond luong', fbToken: 'dddd', totalScore: 3, profileImage: 'url3', isDealer: false}
+    },
+    storePlayer: function(obj) {
+      console.log('testing http ' + obj)
+      // Simple POST request example (passing data) :
+      $http.post('http://localhost:3000/signup', obj)
+        .success(function(data, status, headers, config) {
+        // this callback will be called asynchronously
+        // when the response is available
+        console.log('success http post')
+      }).
+  error(function(data, status, headers, config) {
+    // called asynchronously if an error occurs
+    // or server returns response with an error status.
+    console.log('error http post')
+  });
     }
   } 
 })
@@ -27,7 +42,7 @@ angular.module('starter.services', ['ngResource', 'ngCookies'])
   }
 })
 
-.factory('Game', function($http, $resource, Players, Questions) {
+.factory('Game', function($http, Players, Questions) {
 
   return {
 
@@ -44,7 +59,71 @@ angular.module('starter.services', ['ngResource', 'ngCookies'])
       return Questions[count++];
     }      
   }
-});
+})
+
+.factory('facebook', function(Players, $http, $cookieStore) {
+  
+  return {
+  // FB Login
+    fbLogin: function () {
+        FB.login(function (response) {
+            if (response.authResponse) {
+                getUserInfo();
+            } else {
+                console.log('User cancelled login or did not fully authorize.');
+            }
+        }, {scope: 'email,user_photos,user_videos'});
+ 
+        function getUserInfo() {
+            // get basic info
+            FB.api('/me', function (response) {
+                console.log('Facebook Login RESPONSE: ' + angular.toJson(response));
+                // get profile picture
+                FB.api('/me/picture?type=normal', function (picResponse) {
+                    console.log('Facebook Login RESPONSE: ' + picResponse.data.url);
+                    response.imageUrl = picResponse.data.url;
+                    // store data to DB - Call to API
+                    // Todo
+                    // After posting user data to server successfully store user data locally
+                    var user = {};
+                    user.name = response.name;
+                    user.email = response.email;
+                    if(response.gender) {
+                        response.gender.toString().toLowerCase() === 'male' ? user.gender = 'M' : user.gender = 'F';
+                    } else {
+                        user.gender = '';
+                    }
+                    user.profilePic = picResponse.data.url;
+                    $cookieStore.put('userInfo', user);
+                    console.log(Players.playersList)
+                    Players.storePlayer({firstName: response.first_name, lastName: response.last_name, fbId: response.id, imageUrl: user.profilePic})
+                    $state.go('dashboard');
+ 
+                });
+            });
+        }
+    },
+
+    getLoginStatus: FB.getLoginStatus(function(response) {
+      if (response.status === 'connected') {
+
+          console.log('response = ' + JSON.stringify(response))
+          var uid = response.authResponse.userID;
+          var accessToken = response.authResponse.accessToken;
+      }
+
+      else if (response.status === 'not_authorized') {
+        console.log('not authorized')
+        // the user is logged in to Facebook, 
+        // but has not authenticated your app
+      } 
+
+      else {
+        console.log('the user is not logged in');
+      }
+    })
+  }
+})
 
 
   // player -> object containing username, token, total score, profileImage
