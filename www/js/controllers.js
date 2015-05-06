@@ -47,4 +47,6 @@ angular.module('starter.controllers', [])
 })
 .controller('GameCtrl', function($scope, $stateParams){
   $scope.name = "Example's game";
+  $scope.dealer = "Kyle";
+  $scope.word = {title: "24-Hour Ice", dictionaryDef: "when you're pissed at your significant other, so you don't communicate with them for twenty four hours"};
 });

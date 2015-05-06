@@ -2,3 +2,9 @@
 .secondaryGameInfo {
   color: lightgrey;
 }
+
+.trueOrFalse {
+  width: 45%;
+  display: inline;
+  margin: 5px;
+}

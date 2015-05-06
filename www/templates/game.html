@@ -1,5 +1,20 @@
 <ion-view view-title="{{name}}">
   <ion-content>
-    <p>Game Content Goes Here</p>
+    <div class="card">
+    <div class="item item-divider">
+      <b>{{dealer}}</b> submitted a word:
+    </div>
+      <div class="item item-text-wrap">
+        <h1>{{word.title}}</h1>
+        {{word.dictionaryDef}}
+      </div>
+    </div>
+    <div class="col col-75 col-offset-10">
+      <button class="button button-balanced trueOrFalse">
+        True
+      </button><button class="button button-assertive trueOrFalse">
+        False
+      </button>
+    </div>
   </ion-content>
 </ion-view>
