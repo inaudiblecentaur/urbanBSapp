@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> Individual work
 angular.module('starter.services', ['ngCookies'])
 
 // .factory('Question', function($resource) {
@@ -18,6 +21,7 @@ angular.module('starter.services', ['ngCookies'])
       kyle: {username: 'kyle shockey', fbToken: 'cccc', totalScore: 2, profileImage: 'url2', isDealer: false},
       raymond: {username: 'raymond luong', fbToken: 'dddd', totalScore: 3, profileImage: 'url3', isDealer: false}
     },
+<<<<<<< HEAD
 
     storePlayer: function(obj) {
 
@@ -31,14 +35,28 @@ angular.module('starter.services', ['ngCookies'])
         }
 
       $http(req)
+=======
+    storePlayer: function(obj) {
+      console.log('testing http ' + obj)
+      // Simple POST request example (passing data) :
+      $http.post('http://localhost:3000/signup', obj)
+>>>>>>> Individual work
         .success(function(data, status, headers, config) {
         // this callback will be called asynchronously
         // when the response is available
         console.log('success http post')
       }).
+<<<<<<< HEAD
       error(function(data, status, headers, config) {
       console.log('error http post')
       });
+=======
+  error(function(data, status, headers, config) {
+    // called asynchronously if an error occurs
+    // or server returns response with an error status.
+    console.log('error http post')
+  });
+>>>>>>> Individual work
     }
   }
 
@@ -107,6 +125,10 @@ angular.module('starter.services', ['ngCookies'])
                     $cookieStore.put('userInfo', user);
                     console.log(Players.playersList)
                     Players.storePlayer({firstName: response.first_name, lastName: response.last_name, fbId: response.id, imageUrl: user.profilePic})
+<<<<<<< HEAD
+=======
+                    $state.go('dashboard');
+>>>>>>> Individual work
  
                 });
             });
