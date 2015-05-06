@@ -38,7 +38,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
     }
   })
-
+  .state('app.login', {
+    url: "/login",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/login.html",
+        controller: 'LoginCtrl'
+      }
+    }
+  })
   .state('app.browse', {
     url: "/browse",
     views: {
@@ -67,4 +75,24 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/lobby');
+});
+
+var oauthApp = angular.module('oauthApp', ['ngCookies', 'ionic', 'oauthApp.controllers']);
+ 
+oauthApp.run(function ($rootScope, $cookieStore, $state) {
+    // Check login session
+    $rootScope.$on('$stateChangeStart', function (event, next, current) {
+        var userInfo = $cookieStore.get('userInfo');
+        if (!userInfo) {
+            // user not logged in | redirect to login
+            if (next.name !== "welcome") {
+                // not going to #welcome, we should redirect now
+                event.preventDefault();
+                $state.go('welcome');
+            }
+        } else if (next.name === "welcome") {
+            event.preventDefault();
+            $state.go('dashboard');
+        }
+    });
 });
