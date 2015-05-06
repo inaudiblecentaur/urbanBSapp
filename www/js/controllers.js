@@ -35,11 +35,15 @@ angular.module('starter.controllers', [])
 .controller('LobbyCtrl', function($scope, $stateParams) {
   // for viewing purposes only, will be removed when functionality is added -Kir
   $scope.games = [
-    {name: "Ray's game", id: 1},
-    {name: "Kyle's game", id: 2},
-    {name: "Kir's game", id: 3},
-    {name: "Henry's game", id: 4}
+    {name: "Ray's game", id: 1, round: 2},
+    {name: "Kyle's game", id: 2, round: 5},
+    {name: "Kir's game", id: 3, round: 1},
+    {name: "Henry's game", id: 4, round: 7}
   ];
+  $scope.invitations = [
+      {name: "Henry", id: 1, gameId: 5},
+      {name: "Kyle", id: 2, gameId: 6}
+    ];
 })
 .controller('GameCtrl', function($scope, $stateParams){
   $scope.name = "Example's game";
