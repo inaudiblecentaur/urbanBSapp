@@ -1,13 +1,13 @@
 <ion-view view-title="{{gameData.name}}">
   <ion-content>
-
+    <h1>{{gameData.name}}</h1>
     <div class="card">
     <div class="item item-divider">
-      <b>{{dealer}}</b> submitted a word:
+      <b>{{gameData.dealer}}</b> submitted a word:
     </div>
       <div class="item item-text-wrap">
-        <h1>{{word.title}}</h1>
-        {{word.dictionaryDef}}
+        <h1>{{gameData.currentQuestion}}</h1>
+        {{gameData.currentAnswer}}
       </div>
     </div>
     <div class="col col-75 col-offset-10">
@@ -17,26 +17,5 @@
         False
       </button>
     </div>
-<!--=======
-    <ion-list>
-      <ion-item ng-repeat="player in gameData.players">
-        {{player.username}}
-      <h3>{{player.totalScore}}</h3>
-      <h3>{{player.fbToken}}</h3>
-      <img src="{{player.profileImage}}">
-      </ion-item>
-    </ion-list>
-    <p>{{gameData.currentQuestion}}</p>
-     
-
-        <label class="item item-input">
-          <span class="input-label">Add player</span>
-          <input type="text" ng-model="playerInvite.username">
-        </label>
-        
-        <label class="item">
-          <button class="button button-block button-positive" ng-click="invitePlayer()">Invite</button>
-        </label>
->>>>>>> Pushing all to repo -->
   </ion-content>
 </ion-view>

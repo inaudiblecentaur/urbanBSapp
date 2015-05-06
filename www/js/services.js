@@ -12,12 +12,6 @@ angular.module('starter.services', ['ngCookies'])
 .factory('Players', function($http) {
   
   return {
-    playersList: {
-      henry: {username: 'henry mollman', fbToken: 'aaaa', totalScore: 0, profileImage: 'http://a1.mzstatic.com/us/r30/Purple5/v4/6c/6c/90/6c6c901c-d279-b2e3-4cd6-855381f05308/icon128.png', isDealer: true},
-      kir: {username: 'kir jarchow', fbToken: 'bbbb', totalScore: 1, profileImage: 'url1', isDealer: false},
-      kyle: {username: 'kyle shockey', fbToken: 'cccc', totalScore: 2, profileImage: 'url2', isDealer: false},
-      raymond: {username: 'raymond luong', fbToken: 'dddd', totalScore: 3, profileImage: 'url3', isDealer: false}
-    },
 
     storePlayer: function(obj) {
 
@@ -105,7 +99,6 @@ angular.module('starter.services', ['ngCookies'])
                     }
                     user.profilePic = picResponse.data.url;
                     $cookieStore.put('userInfo', user);
-                    console.log(Players.playersList)
                     Players.storePlayer({firstName: response.first_name, lastName: response.last_name, fbId: response.id, imageUrl: user.profilePic})
  
                 });
@@ -115,8 +108,6 @@ angular.module('starter.services', ['ngCookies'])
 
     getLoginStatus: FB.getLoginStatus(function(response) {
       if (response.status === 'connected') {
-
-          console.log('response = ' + JSON.stringify(response))
           var uid = response.authResponse.userID;
           var accessToken = response.authResponse.accessToken;
       }

@@ -33,31 +33,50 @@ angular.module('starter.controllers', ['starter.services'])
   };
 })
 .controller('LobbyCtrl', function($scope, $stateParams, $http) {
-  var self = this;
-  console.log('lets get gamedata')
+
   $http.get('http://localhost:3000/gameData')
     .success(function(data, status, headers, config) {
-
       $scope.games = data;
+      $scope.invitePlayer();
     })
     .error(function(data, status, headers, config) {
-
+      console.log(data);
     });
+
+    $scope.invitePlayer = function() {
+      
+      var url = 'http://localhost:3000/invites'
+      console.log('inviting players')
+      $http.get(url)
+        .success(function(data, status, headers, config) {
+          console.log(data)
+          var invites = [];
+          data.forEach(function(player) {
+            invites.push(player)
+          });
+
+          $scope.invitations = invites;
+        })
+
+        .error(function(data, status, headers, config) {
+          console.log('error')
+        });
+    };
+
 
 })
 
 .controller('GameCtrl', function($scope, $stateParams, $http, Game, Players, facebook){
-  var self = this;
+
   var url = 'http://localhost:3000/gameData/';
 
   // playerinvite object contains input from user to invite
-  $scope.playerInvite = {};
+  $scope.invitations = [];
 
   // set index of game from hyperlink clicked in lobby
   var index = +[$stateParams['gameId']];
 
   // initially load page with available games
-  console.log('lets get gamedata')
    $http.get(url)
     .success(function(data, status, headers, config) {
 
@@ -71,20 +90,13 @@ angular.module('starter.controllers', ['starter.services'])
 
     $scope.getQuestion = function() {
       console.log($scope.gameData)
-      $scope.gameData.currentQuestion = Game.getQuestion().question;
+      var currentQuestion = Game.getQuestion();
+      console.log(currentQuestion)
+      $scope.gameData.currentQuestion = currentQuestion.question;
+      $scope.gameData.currentAnswer = currentQuestion.answer;
     }
 
 
-    $scope.invitePlayer = function() {
-      var player = Game.invitePlayer($scope.playerInvite.username);
-
-      if (typeof player === "object") {
-        $scope.gameData.players.push(player);
-      }
-
-
-      $scope.playerInvite = {};
-    };
 
 })
 
