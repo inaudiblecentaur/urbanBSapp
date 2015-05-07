@@ -42,6 +42,29 @@ angular.module('starter.controllers', ['starter.services'])
       console.log(data);
     });
 
+     
+
+    $scope.createGame = function() {
+      var req = {
+        method: 'POST',
+         url: 'http://localhost:3000/addGame',
+         headers: {
+           'Content-Type': 'application/json',
+         },
+         data: {"name": "Ray's game", "gameId": 1, "players": ["ray"], "currentQuestion": "null", "round": 0, "dealer": "null"}
+        }
+
+      $http(req)
+        .success(function(data, status, headers, config) {
+        // this callback will be called asynchronously
+        // when the response is available
+        console.log('success http post')
+      }).
+      error(function(data, status, headers, config) {
+      console.log('error http post')
+      });
+    }
+
 })
 
 .controller('GameCtrl', function($scope, $stateParams, $http, Game, Players, facebook){

@@ -1,6 +1,6 @@
 <ion-view view-title="Lobby">
   <ion-content>
-  <button class="button button-full button-positive">
+  <button class="button button-full button-positive" ng-click="createGame()">
     Create New Game
   </button>
     <ion-list>
@@ -9,6 +9,7 @@
         {{game.name}}
         <span class="secondaryGameInfo pull-right">Round {{game.round}}</span>
       </ion-item>
+      <ion-item ng-click="sendPost()">Send</ion-item>
     </ion-list>
   </ion-content>
 </ion-view>
