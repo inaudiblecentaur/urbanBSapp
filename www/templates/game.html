@@ -17,5 +17,16 @@
         False
       </button>
     </div>
+    <ion-list>
+      <ion-item ng-repeat="invite in invitations">
+        from {{invite.name}}<br>
+        <button class="button button-balanced button-small">
+          Join
+        </button>
+        <button class="button button-assertive button-small">
+          Ignore
+        </button>
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>

@@ -37,32 +37,10 @@ angular.module('starter.controllers', ['starter.services'])
   $http.get('http://localhost:3000/gameData')
     .success(function(data, status, headers, config) {
       $scope.games = data;
-      $scope.invitePlayer();
     })
     .error(function(data, status, headers, config) {
       console.log(data);
     });
-
-    $scope.invitePlayer = function() {
-      
-      var url = 'http://localhost:3000/invites'
-      console.log('inviting players')
-      $http.get(url)
-        .success(function(data, status, headers, config) {
-          console.log(data)
-          var invites = [];
-          data.forEach(function(player) {
-            invites.push(player)
-          });
-
-          $scope.invitations = invites;
-        })
-
-        .error(function(data, status, headers, config) {
-          console.log('error')
-        });
-    };
-
 
 })
 
@@ -82,6 +60,7 @@ angular.module('starter.controllers', ['starter.services'])
 
       $scope.gameData = data[index];
       $scope.getQuestion();
+      $scope.getInvites();
     })
     .error(function(data, status, headers, config) {
       console.log(error)
@@ -94,8 +73,27 @@ angular.module('starter.controllers', ['starter.services'])
       console.log(currentQuestion)
       $scope.gameData.currentQuestion = currentQuestion.question;
       $scope.gameData.currentAnswer = currentQuestion.answer;
-    }
+    },
 
+      $scope.getInvites = function() {
+      
+      var url = 'http://localhost:3000/invites'
+      console.log('inviting players')
+      $http.get(url)
+        .success(function(data, status, headers, config) {
+          console.log(data)
+          var invites = [];
+          data.forEach(function(player) {
+            invites.push(player)
+          });
+
+          $scope.invitations = invites;
+        })
+
+        .error(function(data, status, headers, config) {
+          console.log('error')
+        });
+    };
 
 
 })
