@@ -51,11 +51,10 @@ angular.module('starter.controllers', ['ngCordova'])
   $scope.dealer = "Kyle";
   $scope.word = {title: "24-Hour Ice", dictionaryDef: "when you're pissed at your significant other, so you don't communicate with them for twenty four hours"};
 })
-.controller('LoginCtrl', function($scope, $cordovaOauth, $location){
+.controller('LoginCtrl', function($scope, $cordovaOauth){
   $scope.test = "hello!"
   $scope.login = function() {
     console.log("Login!");
-    console.dir($location);
     $cordovaOauth.facebook("1592322804384728", ["email"]).then(function(result) {
       //result only contains access token.
       var accessToken = result.access_token;
