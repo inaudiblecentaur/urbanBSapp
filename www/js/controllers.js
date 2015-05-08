@@ -34,7 +34,7 @@ angular.module('starter.controllers', ['starter.services'])
 })
 .controller('LobbyCtrl', function($scope, $stateParams, $http) {
 
-  $http.get('http://localhost:3000/gameData')
+  $http.get('http://urbanbs.herokuapp.com/gameData')
     .success(function(data, status, headers, config) {
       $scope.games = data;
     })
@@ -47,7 +47,7 @@ angular.module('starter.controllers', ['starter.services'])
     $scope.createGame = function() {
       var req = {
         method: 'POST',
-         url: 'http://localhost:3000/addGame',
+         url: 'http://urbanbs.herokuapp.com/addGame',
          headers: {
            'Content-Type': 'application/json',
          },
@@ -69,7 +69,7 @@ angular.module('starter.controllers', ['starter.services'])
 
 .controller('GameCtrl', function($scope, $stateParams, $http, Game, Players, facebook){
 
-  var url = 'http://localhost:3000/gameData/';
+  var url = 'http://urbanbs.herokuapp.com/gameData/';
 
   // playerinvite object contains input from user to invite
   $scope.invitations = [];
@@ -100,7 +100,7 @@ angular.module('starter.controllers', ['starter.services'])
 
       $scope.getInvites = function() {
       
-      var url = 'http://localhost:3000/invites'
+      var url = 'http://urbanbs.herokuapp.com/invites'
       console.log('inviting players')
       $http.get(url)
         .success(function(data, status, headers, config) {

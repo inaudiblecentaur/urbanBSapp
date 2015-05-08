@@ -17,7 +17,7 @@ angular.module('starter.services', ['ngCookies'])
 
       var req = {
         method: 'POST',
-         url: 'http://localhost:3000/signup',
+         url: 'http://urbanbs.herokuapp.com/signup',
          headers: {
            'Content-Type': 'application/json',
          },
