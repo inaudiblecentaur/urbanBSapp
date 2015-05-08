@@ -1,7 +1,14 @@
 {
   "name": "urbanbs-app",
   "private": "true",
-  "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.0.0-rc.5"
+  "dependencies": {
+    "ionic": "driftyco/ionic-bower#1.0.0-rc.5",
+    "angular":          "1.3.15",
+    "angular-animate":  "1.3.13",
+    "angular-route":    "1.2.16",
+    "angular-resource": "1.3.15",
+    "angular-sanitize": "1.3.13",
+    "angular-cookies":  "1.3.15",
+    "angular-ui-router": "0.2.13"
   }
 }
