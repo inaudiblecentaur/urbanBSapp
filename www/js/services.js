@@ -65,7 +65,7 @@ angular.module('starter.services', ['ngCookies'])
   }
 })
 
-.factory('facebook', function(Players, $http, $cookieStore) {
+.factory('facebook', function(Players, $http, $cookieStore, $state) {
   
   return {
   // FB Login
@@ -73,6 +73,7 @@ angular.module('starter.services', ['ngCookies'])
         FB.login(function (response) {
             if (response.authResponse) {
                 getUserInfo();
+                $state.go('app.lobby');
             } else {
                 console.log('User cancelled login or did not fully authorize.');
             }
