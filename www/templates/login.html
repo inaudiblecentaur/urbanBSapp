@@ -1,18 +1,25 @@
-
-
-<ion-view title="Login" id="welcome-view" hide-nav-bar="false">
-    <ion-content>
-        <div  class="logo-welcome"></div>
-        <div class="login-btns">
-
-            </div>
-            <hr id="login-divider" />
-
-        </div>
-        <div>
-          <label class="item">
-          <button class="button button-block button-positive" ng-click="fbLogin()">Sign In With Facebook</button>
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">Login</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeLogin()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <form ng-submit="doLogin()">
+      <div class="list">
+        <label class="item item-input">
+          <span class="input-label">Username</span>
+          <input type="text" ng-model="loginData.username">
         </label>
-    </ion-content>
-</ion-view>
-
+        <label class="item item-input">
+          <span class="input-label">Password</span>
+          <input type="password" ng-model="loginData.password">
+        </label>
+        <label class="item">
+          <button class="button button-block button-positive" type="submit">Log in</button>
+        </label>
+      </div>
+    </form>
+  </ion-content>
+</ion-modal-view>

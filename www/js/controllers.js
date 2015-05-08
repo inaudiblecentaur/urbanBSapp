@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['starter.services'])
+angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
   // Form data for the login modal
@@ -32,98 +32,21 @@ angular.module('starter.controllers', ['starter.services'])
     }, 1000);
   };
 })
-.controller('LobbyCtrl', function($scope, $stateParams, $http) {
-
-  $http.get('http://localhost:3000/gameData')
-    .success(function(data, status, headers, config) {
-      $scope.games = data;
-    })
-    .error(function(data, status, headers, config) {
-      console.log(data);
-    });
-
-     
-
-    $scope.createGame = function() {
-      var req = {
-        method: 'POST',
-         url: 'http://localhost:3000/addGame',
-         headers: {
-           'Content-Type': 'application/json',
-         },
-         data: {"name": "Ray's game", "gameId": 1, "players": ["ray"], "currentQuestion": "null", "round": 0, "dealer": "null"}
-        }
-
-      $http(req)
-        .success(function(data, status, headers, config) {
-        // this callback will be called asynchronously
-        // when the response is available
-        console.log('success http post')
-      }).
-      error(function(data, status, headers, config) {
-      console.log('error http post')
-      });
-    }
-
+.controller('LobbyCtrl', function($scope, $stateParams) {
+  // for viewing purposes only, will be removed when functionality is added -Kir
+  $scope.games = [
+    {name: "Ray's game", id: 1, round: 2},
+    {name: "Kyle's game", id: 2, round: 5},
+    {name: "Kir's game", id: 3, round: 1},
+    {name: "Henry's game", id: 4, round: 7}
+  ];
+  $scope.invitations = [
+      {name: "Henry", id: 1, gameId: 5},
+      {name: "Kyle", id: 2, gameId: 6}
+    ];
 })
-
-.controller('GameCtrl', function($scope, $stateParams, $http, Game, Players, facebook){
-
-  var url = 'http://localhost:3000/gameData/';
-
-  // playerinvite object contains input from user to invite
-  $scope.invitations = [];
-
-  // set index of game from hyperlink clicked in lobby
-  var index = +[$stateParams['gameId']];
-
-  // initially load page with available games
-   $http.get(url)
-    .success(function(data, status, headers, config) {
-
-      $scope.gameData = data[index];
-      $scope.getQuestion();
-      $scope.getInvites();
-    })
-    .error(function(data, status, headers, config) {
-      console.log(error)
-  });
-
-
-    $scope.getQuestion = function() {
-      console.log($scope.gameData)
-      var currentQuestion = Game.getQuestion();
-      console.log(currentQuestion)
-      $scope.gameData.currentQuestion = currentQuestion.question;
-      $scope.gameData.currentAnswer = currentQuestion.answer;
-    },
-
-      $scope.getInvites = function() {
-      
-      var url = 'http://localhost:3000/invites'
-      console.log('inviting players')
-      $http.get(url)
-        .success(function(data, status, headers, config) {
-          console.log(data)
-          var invites = [];
-          data.forEach(function(player) {
-            invites.push(player)
-          });
-
-          $scope.invitations = invites;
-        })
-
-        .error(function(data, status, headers, config) {
-          console.log('error')
-        });
-    };
-
-
-})
-
-.controller('LoginCtrl', function ($scope, $state, facebook) {
-    $scope.fbLogin = facebook.fbLogin;
-    $scope.getLoginStatus = facebook.getLoginStatus;
-    
-  });
-    // END FB Login
+.controller('GameCtrl', function($scope, $stateParams){
+  $scope.name = "Example's game";
+  $scope.dealer = "Kyle";
+  $scope.word = {title: "24-Hour Ice", dictionaryDef: "when you're pissed at your significant other, so you don't communicate with them for twenty four hours"};
+});
