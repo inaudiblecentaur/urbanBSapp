@@ -35,7 +35,7 @@ angular.module('starter.controllers', ['starter.services'])
 
 .controller('LobbyCtrl', function($scope, $stateParams, $http) {
 
-  $http.get('http://localhost:3000/gameData')
+  $http.get('http://urbanbs.herokuapp.com/gameData')
     .success(function(data, status, headers, config) {
       $scope.games = data;
     })
@@ -50,33 +50,34 @@ angular.module('starter.controllers', ['starter.services'])
 .controller('CreateCtrl', function($scope, $stateParams, $http, Game, Players, facebook) {
 
   $scope.invitedPlayers = [];
+  $scope.gameObj = {};
 
   $scope.createGame = function() {
       var req = {
         method: 'POST',
-         url: 'http://localhost:3000/addGame',
+         url: 'http://urbanbs.herokuapp.com/addGame',
          headers: {
            'Content-Type': 'application/json',
          },
-         data: {"name": $scope.gameName, "gameId": 0, "players": $scope.playerList, "currentQuestion": "null", 
-                "round": 0, "roundLimit": $scope.roundLimit, "dealer": "null"}
+         data: {"name": $scope.gameObj.gameName, "gameId": 0, "players": $scope.playerList, "currentQuestion": "null", 
+                "round": 0, "roundLimit": $scope.gameObj.roundLimit, "dealer": "null"}
         }
 
-      // $http(req)
-      //   .success(function(data, status, headers, config) {
-      //   // this callback will be called asynchronously
-      //   // when the response is available
-      //   console.log('success http post')
-      // }).
-      // error(function(data, status, headers, config) {
-      // console.log('error http post')
-      // });
+        console.log(req.data)
 
-console.log(req.data);
+      $http(req)
+        .success(function(data, status, headers, config) {
+        // this callback will be called asynchronously
+        // when the response is available
+        console.log('success http post')
+      }).
+      error(function(data, status, headers, config) {
+      console.log('error http post')
+      });
     };
 
   $scope.getPlayers = function() {
-      $http.get('http://localhost:3000/listUsers')
+      $http.get('http://urbanbs.herokuapp.com/listUsers')
       .success(function(data, status, headers, config) {
         $scope.playerList = data;
       })
@@ -101,7 +102,7 @@ console.log(req.data);
 
 .controller('GameCtrl', function($scope, $stateParams, $http, Game, Players, facebook){
 
-  var url = 'http://localhost:3000/gameData/';
+  var url = 'http://urbanbs.herokuapp.com/gameData/';
 
   $scope.invitations = [];
 
@@ -131,7 +132,7 @@ console.log(req.data);
 
       $scope.getInvites = function() {
       
-      var url = 'http://localhost:3000/invites'
+      var url = 'http://urbanbs.herokuapp.com/invites'
       console.log('inviting players')
       $http.get(url)
         .success(function(data, status, headers, config) {
