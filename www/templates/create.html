@@ -2,24 +2,35 @@
   <ion-content>
 
     <ion-list>
-      <ion-item ng-repeat="player in gameData.players">
-        {{player.username}}
-      <h3>{{player.totalScore}}</h3>
-      <h3>{{player.fbToken}}</h3>
-      <img src="{{player.profileImage}}">
+      <ion-item ng-repeat="player in playerList" ng-click="invitePlayer({{player.fbId}})">
+        <h3>{{player.firstName}} {{player.lastName}}</h3>
+      <img src="{{player.imageUrl}}">
       </ion-item>
     </ion-list>
     <p>{{gameData.currentQuestion}}</p>
      
 
         <label class="item item-input">
-          <span class="input-label">Add player</span>
-          <input type="text" ng-model="playerInvite.firstName">
-        </label>
-        
-        <label class="item">
-          <button class="button button-block button-positive" ng-click="invitePlayer()">Invite</button>
+          <span class="input-label">Game Name</span>
+          <input type="text" ng-model="gameName">
         </label>
 
+          <label class="item item-input">
+          <span class="input-label">Round Limit</span>
+          <input type="text" ng-model="gameRounds">
+        </label>
+
+
+        
+        <label class="item">
+          <button class="button button-block button-positive" ng-click="createGame()">Start Game</button>
+        </label>
+    <h1>Invited Players</h1>
+    <ion-list>
+      <ion-item ng-repeat="invitedPlayer in invitedPlayers">
+        <h3>{{invitedPlayer.firstName}} {{invitedPlayer.lastName}}</h3> 
+        <img src="{{invitedPlayer.imageUrl}}">
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>

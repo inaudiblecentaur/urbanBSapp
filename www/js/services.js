@@ -17,7 +17,7 @@ angular.module('starter.services', ['ngCookies'])
 
       var req = {
         method: 'POST',
-         url: 'http://urbanbs.herokuapp.com/signup',
+         url: 'http://localhost:3000/signup',
          headers: {
            'Content-Type': 'application/json',
          },
@@ -33,7 +33,7 @@ angular.module('starter.services', ['ngCookies'])
       error(function(data, status, headers, config) {
       console.log('error http post')
       });
-    }
+    },
   }
 
 })
@@ -50,12 +50,15 @@ angular.module('starter.services', ['ngCookies'])
 
   return {
 
-    invitePlayer: function(username) {
-      console.log(username + " " + Players.playersList)
-      if  (Players.playersList[username]) {
-          return Players.playersList[username];
-      }
-        else return "Not found";
+    invitePlayer: function(id, playerList) {
+      console.log(id)
+      if (typeof id === "number") console.log('number');
+      else if (typeof id === "string") {
+        if  (playerList[id]) {
+            return playerList[id];
+        }
+          else return "Not found";
+        }
       },
 
     getQuestion: function() {
@@ -106,22 +109,7 @@ angular.module('starter.services', ['ngCookies'])
         }
     },
 
-    getLoginStatus: FB.getLoginStatus(function(response) {
-      if (response.status === 'connected') {
-          var uid = response.authResponse.userID;
-          var accessToken = response.authResponse.accessToken;
-      }
-
-      else if (response.status === 'not_authorized') {
-        console.log('not authorized')
-        // the user is logged in to Facebook, 
-        // but has not authenticated your app
-      } 
-
-      else {
-        console.log('the user is not logged in');
-      }
-    })
+    
   }
 })
 
