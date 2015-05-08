@@ -1,13 +1,12 @@
-<ion-view view-title="{{gameData.name}}">
+<ion-view view-title="{{name}}">
   <ion-content>
-    <h1>{{gameData.name}}</h1>
     <div class="card">
     <div class="item item-divider">
-      <b>{{gameData.dealer}}</b> submitted a word:
+      <b>{{dealer}}</b> submitted a word:
     </div>
       <div class="item item-text-wrap">
-        <h1>{{gameData.currentQuestion}}</h1>
-        {{gameData.currentAnswer}}
+        <h1>{{word.title}}</h1>
+        {{word.dictionaryDef}}
       </div>
     </div>
     <div class="col col-75 col-offset-10">
@@ -17,16 +16,5 @@
         False
       </button>
     </div>
-    <ion-list>
-      <ion-item ng-repeat="invite in invitations">
-        from {{invite.name}}<br>
-        <button class="button button-balanced button-small">
-          Join
-        </button>
-        <button class="button button-assertive button-small">
-          Ignore
-        </button>
-      </ion-item>
-    </ion-list>
   </ion-content>
 </ion-view>
