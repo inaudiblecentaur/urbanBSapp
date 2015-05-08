@@ -1,0 +1,25 @@
+<ion-view view-title="{{gameData.name}}">
+  <ion-content>
+
+    <ion-list>
+      <ion-item ng-repeat="player in gameData.players">
+        {{player.username}}
+      <h3>{{player.totalScore}}</h3>
+      <h3>{{player.fbToken}}</h3>
+      <img src="{{player.profileImage}}">
+      </ion-item>
+    </ion-list>
+    <p>{{gameData.currentQuestion}}</p>
+     
+
+        <label class="item item-input">
+          <span class="input-label">Add player</span>
+          <input type="text" ng-model="playerInvite.firstName">
+        </label>
+        
+        <label class="item">
+          <button class="button button-block button-positive" ng-click="invitePlayer()">Invite</button>
+        </label>
+
+  </ion-content>
+</ion-view>
