@@ -64,6 +64,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         controller: 'GameCtrl'
       }
     }
+  })
+  .state('app.dealer', {
+    url: "/games/:gameId/dealer",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/dealer.html",
+        controller: 'GameCtrl'
+      }
+    }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/browse');
