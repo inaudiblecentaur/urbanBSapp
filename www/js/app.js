@@ -57,7 +57,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
   .state('app.game', {
-    url: "/games/:gameId",
+    url: "/games/:id",
     views: {
       'menuContent': {
         templateUrl: "templates/game.html",
