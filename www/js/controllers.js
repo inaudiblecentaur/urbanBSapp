@@ -119,11 +119,4 @@ angular.module('starter.controllers', ['starter.services'])
     };
 
 
-})
-
-.controller('LoginCtrl', function ($scope, $state, facebook) {
-    $scope.fbLogin = facebook.fbLogin;
-    $scope.getLoginStatus = facebook.getLoginStatus;
-    
-  });
-    // END FB Login
+});
