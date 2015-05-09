@@ -2,11 +2,11 @@
 angular.module('starter.services', ['ngCookies'])
 
 // .factory('Question', function($resource) {
-//   return $resource('http://localhost:3000/questions/:qId');
+//   return $resource('http://urbanbs.herokuapp.com/questions/:qId');
 // })
 
 // .factory('Player', function($resource) {
-//   return $resource('http://localhost:3000/players/:facebookId');
+//   return $resource('http://urbanbs.herokuapp.com/players/:facebookId');
 // })
 
 .factory('Players', function($http) {
@@ -33,7 +33,7 @@ angular.module('starter.services', ['ngCookies'])
       error(function(data, status, headers, config) {
       console.log('error http post')
       });
-    }
+    },
   }
 
 })
@@ -50,12 +50,15 @@ angular.module('starter.services', ['ngCookies'])
 
   return {
 
-    invitePlayer: function(username) {
-      console.log(username + " " + Players.playersList)
-      if  (Players.playersList[username]) {
-          return Players.playersList[username];
-      }
-        else return "Not found";
+    invitePlayer: function(id, playerList) {
+      console.log(id)
+      if (typeof id === "number") console.log('number');
+      else if (typeof id === "string") {
+        if  (playerList[id]) {
+            return playerList[id];
+        }
+          else return "Not found";
+        }
       },
 
     getQuestion: function() {
@@ -65,7 +68,7 @@ angular.module('starter.services', ['ngCookies'])
   }
 })
 
-.factory('facebook', function(Players, $http, $cookieStore) {
+.factory('facebook', function(Players, $http, $cookieStore, $state) {
   
   return {
   // FB Login
@@ -100,28 +103,14 @@ angular.module('starter.services', ['ngCookies'])
                     user.profilePic = picResponse.data.url;
                     $cookieStore.put('userInfo', user);
                     Players.storePlayer({firstName: response.first_name, lastName: response.last_name, fbId: response.id, imageUrl: user.profilePic})
+                    $state.go('app.lobby')
  
                 });
             });
         }
     },
 
-    getLoginStatus: FB.getLoginStatus(function(response) {
-      if (response.status === 'connected') {
-          var uid = response.authResponse.userID;
-          var accessToken = response.authResponse.accessToken;
-      }
-
-      else if (response.status === 'not_authorized') {
-        console.log('not authorized')
-        // the user is logged in to Facebook, 
-        // but has not authenticated your app
-      } 
-
-      else {
-        console.log('the user is not logged in');
-      }
-    })
+    
   }
 })
 

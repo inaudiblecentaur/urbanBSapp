@@ -32,9 +32,10 @@ angular.module('starter.controllers', ['starter.services'])
     }, 1000);
   };
 })
+
 .controller('LobbyCtrl', function($scope, $stateParams, $http) {
 
-  $http.get('http://urbanbs.herokuapp.com/gameData')
+  $http.get('http://urbanbs.herokuapp.com/listGames')
     .success(function(data, status, headers, config) {
       $scope.games = data;
     })
@@ -44,15 +45,25 @@ angular.module('starter.controllers', ['starter.services'])
 
      
 
-    $scope.createGame = function() {
+})
+
+.controller('CreateCtrl', function($scope, $stateParams, $http, Game, Players, facebook) {
+
+  $scope.invitedPlayers = [];
+  $scope.gameObj = {};
+
+  $scope.createGame = function() {
       var req = {
         method: 'POST',
          url: 'http://urbanbs.herokuapp.com/addGame',
          headers: {
            'Content-Type': 'application/json',
          },
-         data: {"name": "Ray's game", "gameId": 1, "players": ["ray"], "currentQuestion": "null", "round": 0, "dealer": "null"}
+         data: {"name": $scope.gameObj.gameName, "gameId": 0, "players": $scope.playerList, "currentQuestion": "null", 
+                "round": 0, "roundLimit": $scope.gameObj.roundLimit, "dealer": "null"}
         }
+
+        console.log(req.data)
 
       $http(req)
         .success(function(data, status, headers, config) {
@@ -63,7 +74,29 @@ angular.module('starter.controllers', ['starter.services'])
       error(function(data, status, headers, config) {
       console.log('error http post')
       });
-    }
+    };
+
+  $scope.getPlayers = function() {
+      $http.get('http://urbanbs.herokuapp.com/listUsers')
+      .success(function(data, status, headers, config) {
+        $scope.playerList = data;
+      })
+      .error(function(data, status, headers, config) {
+        console.log(error)
+      });
+    };
+
+    $scope.invitePlayer = function(fbId) {
+      $scope.playerList.forEach(function(player) {
+        if (player.fbId === fbId) {
+          $scope.invitedPlayers.push(player);
+        }
+      });
+
+    };
+
+    $scope.getPlayers();
+    
 
 })
 
@@ -71,7 +104,6 @@ angular.module('starter.controllers', ['starter.services'])
 
   var url = 'http://urbanbs.herokuapp.com/gameData/';
 
-  // playerinvite object contains input from user to invite
   $scope.invitations = [];
 
   // set index of game from hyperlink clicked in lobby
@@ -119,11 +151,4 @@ angular.module('starter.controllers', ['starter.services'])
     };
 
 
-})
-
-.controller('LoginCtrl', function ($scope, $state, facebook) {
-    $scope.fbLogin = facebook.fbLogin;
-    $scope.getLoginStatus = facebook.getLoginStatus;
-    
-  });
-    // END FB Login
+});
