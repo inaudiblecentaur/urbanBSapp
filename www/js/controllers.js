@@ -35,7 +35,7 @@ angular.module('starter.controllers', ['starter.services'])
 
 .controller('LobbyCtrl', function($scope, $stateParams, $http) {
 
-  $http.get('http://localhost:3000/listGames')
+  $http.get('http://urbanbs.herokuapp.com/listGames')
     .success(function(data, status, headers, config) {
       $scope.games = data;
     })
@@ -55,7 +55,7 @@ angular.module('starter.controllers', ['starter.services'])
   $scope.createGame = function() {
       var req = {
         method: 'POST',
-         url: 'http://localhost:3000/addGame',
+         url: 'http://urbanbs.herokuapp.com/addGame',
          headers: {
            'Content-Type': 'application/json',
          },
@@ -77,7 +77,7 @@ angular.module('starter.controllers', ['starter.services'])
     };
 
   $scope.getPlayers = function() {
-      $http.get('http://localhost:3000/listUsers')
+      $http.get('http://urbanbs.herokuapp.com/listUsers')
       .success(function(data, status, headers, config) {
         $scope.playerList = data;
       })
@@ -102,7 +102,7 @@ angular.module('starter.controllers', ['starter.services'])
 
 .controller('GameCtrl', function($scope, $stateParams, $http, Game, Players, facebook){
 
-  var url = 'http://localhost:3000/gameData/';
+  var url = 'http://urbanbs.herokuapp.com/gameData/';
 
   $scope.invitations = [];
 
@@ -132,7 +132,7 @@ angular.module('starter.controllers', ['starter.services'])
 
       $scope.getInvites = function() {
       
-      var url = 'http://localhost:3000/invites'
+      var url = 'http://urbanbs.herokuapp.com/invites'
       console.log('inviting players')
       $http.get(url)
         .success(function(data, status, headers, config) {
@@ -151,26 +151,4 @@ angular.module('starter.controllers', ['starter.services'])
     };
 
 
-})
-
-.controller('LoginCtrl', function ($scope, $state, facebook) {
-    $scope.fbLogin = facebook.fbLogin;
-    $scope.getLoginStatus = FB.getLoginStatus(function(response) {
-      if (response.status === 'connected') {
-          var uid = response.authResponse.userID;
-          var accessToken = response.authResponse.accessToken;
-      }
-
-      else if (response.status === 'not_authorized') {
-        console.log('not authorized')
-        // the user is logged in to Facebook, 
-        // but has not authenticated your app
-      } 
-
-      else {
-        console.log('the user is not logged in');
-      }
-    })
-
-  });
-    // END FB Login
+});
