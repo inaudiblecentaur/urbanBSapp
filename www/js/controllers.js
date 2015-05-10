@@ -196,11 +196,6 @@ angular.module('starter.controllers', ['ngCordova'])
       templateUrl: 'templates/dealer.html'
     };
   })
-.controller('GameCtrl', function($scope, $stateParams){
-  $scope.name = "Example's game";
-  $scope.dealer = "Kyle";
-  $scope.word = {title: "24-Hour Ice", dictionaryDef: "when you're pissed at your significant other, so you don't communicate with them for twenty four hours"};
-})
 .controller('LoginCtrl', function($scope, $cordovaOauth, $http){
   $scope.test = "hello!"
   $scope.login = function() {
@@ -209,7 +204,7 @@ angular.module('starter.controllers', ['ngCordova'])
     $cordovaOauth.facebook("1592322804384728", ["email"]).then(function(result) {
       //result only contains access token.
       var accessToken = result.access_token;
-      $http.post('/signup', {token: accessToken})
+      $http.post('/signup', {fbId: accessToken})
         .success(function(data, status, headers, config){
 
         })
