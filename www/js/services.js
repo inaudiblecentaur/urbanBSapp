@@ -2,11 +2,11 @@
 angular.module('starter.services', ['ngCookies'])
 
 // .factory('Question', function($resource) {
-//   return $resource('http://localhost:3000/questions/:qId');
+//   return $resource('http://urbanbs.herokuapp.com/questions/:qId');
 // })
 
 // .factory('Player', function($resource) {
-//   return $resource('http://localhost:3000/players/:facebookId');
+//   return $resource('http://urbanbs.herokuapp.com/players/:facebookId');
 // })
 
 .factory('Players', function($http) {
@@ -17,7 +17,7 @@ angular.module('starter.services', ['ngCookies'])
 
       var req = {
         method: 'POST',
-         url: 'http://localhost:3000/signup',
+         url: 'http://urbanbs.herokuapp.com/signup',
          headers: {
            'Content-Type': 'application/json',
          },
