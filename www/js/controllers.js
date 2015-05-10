@@ -80,16 +80,6 @@ angular.module('starter.controllers', ['starter.services'])
       });
     };
 
-  $scope.getPlayers = function() {
-      $http.get('http://localhost:3000/listUsers')
-      .success(function(data, status, headers, config) {
-        $scope.playerList = data;
-      })
-      .error(function(data, status, headers, config) {
-        console.log(error)
-      });
-    };
-
 
   $scope.getPlayers = function() {
       $http.get('http://localhost:3000/listUsers')
@@ -142,10 +132,15 @@ angular.module('starter.controllers', ['starter.services'])
 
     $scope.getQuestion = function() {
       console.log($scope.gameData)
-      var currentQuestion = Game.getQuestion();
-      console.log(currentQuestion)
-      $scope.gameData.currentQuestion = currentQuestion.question;
-      $scope.gameData.currentAnswer = currentQuestion.answer;
+      $http.get('http://localhost:3000/currentQuestion')
+        .success(function(data, status, headers, config) {
+          $scope.gameData.currentQuestion = data;
+          console.log($scope.gameData)
+    })
+    .error(function(data, status, headers, config) {
+      console.log(error)
+  });
+
     },
 
       $scope.getInvites = function() {

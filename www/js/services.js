@@ -2,11 +2,11 @@
 angular.module('starter.services', ['ngCookies'])
 
 // .factory('Question', function($resource) {
-//   return $resource('http://localhost:3000/questions/:qId');
+//   return $resource('http://urbanbs.herokuapp.com/questions/:qId');
 // })
 
 // .factory('Player', function($resource) {
-//   return $resource('http://localhost:3000/players/:facebookId');
+//   return $resource('http://urbanbs.herokuapp.com/players/:facebookId');
 // })
 
 .factory('Players', function($http) {
@@ -17,7 +17,7 @@ angular.module('starter.services', ['ngCookies'])
 
       var req = {
         method: 'POST',
-         url: 'http://localhost:3000/signup',
+         url: 'http://urbanbs.herokuapp.com/signup',
          headers: {
            'Content-Type': 'application/json',
          },
@@ -38,15 +38,7 @@ angular.module('starter.services', ['ngCookies'])
 
 })
 
-.factory('Questions', function($http) {
-  return {
-    '0': {question: 'Office Hit List', answer: 'a list of people with whom you work and whom you would also like to murder'},
-    '1': {question: 'Barithmetic', answer: 'the math a younger girl does when she meets an older guy in a bar, where she finds how old she was when you were her age'},
-    '2': {question: 'Thirst Trapping', answer: 'the act of looking very attractive to the opposing gender to lead them on to rejection'} 
-  }
-})
-
-.factory('Game', function($http, Players, Questions) {
+.factory('Game', function($http, Players) {
 
   return {
 
@@ -61,10 +53,9 @@ angular.module('starter.services', ['ngCookies'])
         }
       },
 
-    getQuestion: function() {
-      var count = 0;
-      return Questions[count++];
-    },
+    // getQuestion: function() {
+
+    // },
 
     invitePlayer: function(fbId) {
       console.log($scope.playerList);
@@ -73,7 +64,7 @@ angular.module('starter.services', ['ngCookies'])
           player.answer = null;
           var req = {
             method: 'POST',
-            url: 'http://localhost:3000/invitePlayer',
+            url: 'http://urbanbs.herokuapp.com/invitePlayer',
             headers: {
               'Content-Type': 'application/json',
             },
@@ -97,7 +88,7 @@ angular.module('starter.services', ['ngCookies'])
   }
 })
 
-.factory('Create', function($http, Players, Questions) {
+.factory('Create', function($http, Players) {
   return {}
     
 })
