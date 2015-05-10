@@ -13,10 +13,21 @@
      
 
         <label class="item item-input">
+
           <span class="input-label">Add player</span>
           <input type="text" ng-model="playerInvite.firstName">
         </label>
-        
+
+          <span class="input-label">Game Name</span>
+          <input type="text" ng-model="gameObj.gameName">
+        </label>
+        <p>{{gameName}}</p>
+          <label class="item item-input">
+          <span class="input-label">Round Limit</span>
+          <input type="text" ng-model="gameObj.roundLimit">
+        </label>
+
+    
         <label class="item">
           <button class="button button-block button-positive" ng-click="invitePlayer()">Invite</button>
         </label>

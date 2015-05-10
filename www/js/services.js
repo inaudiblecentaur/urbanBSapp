@@ -2,11 +2,11 @@
 angular.module('starter.services', ['ngCookies'])
 
 // .factory('Question', function($resource) {
-//   return $resource('http://localhost:3000/questions/:qId');
+//   return $resource('http://urbanbs.herokuapp.com/questions/:qId');
 // })
 
 // .factory('Player', function($resource) {
-//   return $resource('http://localhost:3000/players/:facebookId');
+//   return $resource('http://urbanbs.herokuapp.com/players/:facebookId');
 // })
 
 .factory('Players', function($http) {
@@ -101,6 +101,7 @@ angular.module('starter.services', ['ngCookies'])
                     user.profilePic = picResponse.data.url;
                     $cookieStore.put('userInfo', user);
                     Players.storePlayer({firstName: response.first_name, lastName: response.last_name, fbId: response.id, imageUrl: user.profilePic})
+                    $state.go('app.lobby')
  
                 });
             });
