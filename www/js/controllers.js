@@ -35,7 +35,7 @@ angular.module('starter.controllers', ['starter.services'])
 
 .controller('LobbyCtrl', function($scope, $stateParams, $http) {
 
-  $http.get('http://localhost:3000/listGames')
+  $http.get('http://urbanbs.herokuapp.com/listGames')
     .success(function(data, status, headers, config) {
       console.log(data)
       $scope.games = data;
@@ -57,7 +57,7 @@ angular.module('starter.controllers', ['starter.services'])
 
       var req = {
         method: 'POST',
-         url: 'http://localhost:3000/addGame',
+         url: 'http://urbanbs.herokuapp.com/addGame',
          headers: {
            'Content-Type': 'application/json',
          },
@@ -82,7 +82,7 @@ angular.module('starter.controllers', ['starter.services'])
 
 
   $scope.getPlayers = function() {
-      $http.get('http://localhost:3000/listUsers')
+      $http.get('http://urbanbs.herokuapp.com/listUsers')
       .success(function(data, status, headers, config) {
         $scope.playerList = data;
       })
@@ -107,7 +107,7 @@ angular.module('starter.controllers', ['starter.services'])
 
 .controller('GameCtrl', function($scope, $stateParams, $http, Game, Players, facebook){
 
-  var url = 'http://localhost:3000/listGames/';
+  var url = 'http://urbanbs.herokuapp.com/listGames/';
 
   $scope.invitations = [];
 
@@ -132,7 +132,7 @@ angular.module('starter.controllers', ['starter.services'])
 
     $scope.getQuestion = function() {
       console.log($scope.gameData)
-      $http.get('http://localhost:3000/currentQuestion')
+      $http.get('http://urbanbs.herokuapp.com/currentQuestion')
         .success(function(data, status, headers, config) {
           $scope.gameData.currentQuestion = data;
           console.log($scope.gameData)
@@ -145,7 +145,7 @@ angular.module('starter.controllers', ['starter.services'])
 
       $scope.getInvites = function() {
       
-      var url = 'http://localhost:3000/invites'
+      var url = 'http://urbanbs.herokuapp.com/invites'
       console.log('inviting players')
       $http.get(url)
         .success(function(data, status, headers, config) {
