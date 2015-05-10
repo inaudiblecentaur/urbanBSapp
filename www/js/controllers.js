@@ -32,6 +32,7 @@ angular.module('starter.controllers', ['starter.services'])
     }, 1000);
   };
 })
+
 .controller('LobbyCtrl', function($scope, $stateParams, $http) {
 
   $http.get('http://localhost:3000/listGames')
@@ -45,8 +46,7 @@ angular.module('starter.controllers', ['starter.services'])
 
      
 
-
-
+})
 
 .controller('CreateCtrl', function($scope, $stateParams, $http, Game, Players, facebook) {
 
@@ -97,7 +97,29 @@ angular.module('starter.controllers', ['starter.services'])
         }
 
       });
-    }
+    };
+
+  $scope.getPlayers = function() {
+      $http.get('http://localhost:3000/listUsers')
+      .success(function(data, status, headers, config) {
+        $scope.playerList = data;
+      })
+      .error(function(data, status, headers, config) {
+        console.log(error)
+      });
+    };
+
+    $scope.invitePlayer = function(fbId) {
+      $scope.playerList.forEach(function(player) {
+        if (player.fbId === fbId) {
+          $scope.invitedPlayers.push(player);
+        }
+      });
+
+    };
+
+    $scope.getPlayers();
+    
 
 })
 
@@ -105,7 +127,6 @@ angular.module('starter.controllers', ['starter.services'])
 
   var url = 'http://localhost:3000/listGames/';
 
-  // playerinvite object contains input from user to invite
   $scope.invitations = [];
 
   // set index of game from hyperlink clicked in lobby
@@ -151,8 +172,6 @@ angular.module('starter.controllers', ['starter.services'])
           console.log('error')
         });
     };
-
-
 
 
 });
