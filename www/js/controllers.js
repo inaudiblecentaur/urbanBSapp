@@ -90,14 +90,6 @@ angular.module('starter.controllers', ['starter.services'])
       });
     };
 
-    $scope.invitePlayer = function(fbId) {
-      $scope.playerList.forEach(function(player) {
-        if (player.fbId === fbId) {
-          $scope.invitedPlayers.push(player);
-        }
-
-      });
-    };
 
   $scope.getPlayers = function() {
       $http.get('http://localhost:3000/listUsers')
@@ -128,6 +120,9 @@ angular.module('starter.controllers', ['starter.services'])
   var url = 'http://localhost:3000/listGames/';
 
   $scope.invitations = [];
+
+  // side menu needed for inviting player during game
+  $scope.invitePlayer = Game.invitePlayer;
 
   // set index of game from hyperlink clicked in lobby
   var index = +[$stateParams['gameId']];
@@ -172,6 +167,10 @@ angular.module('starter.controllers', ['starter.services'])
           console.log('error')
         });
     };
+})
 
-
-});
+  .controller('LoginCtrl', function ($scope, $state, facebook) {
+    $scope.fbLogin = facebook.fbLogin;
+    $scope.getLoginStatus = facebook.getLoginStatus;
+    
+  });

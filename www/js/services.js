@@ -64,8 +64,42 @@ angular.module('starter.services', ['ngCookies'])
     getQuestion: function() {
       var count = 0;
       return Questions[count++];
-    }      
+    },
+
+    invitePlayer: function(fbId) {
+      console.log($scope.playerList);
+      $scope.playerList.forEach(function(player) {
+        if (player.fbId === fbId) {
+          player.answer = null;
+          var req = {
+            method: 'POST',
+            url: 'http://localhost:3000/invitePlayer',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            data: player
+          }
+
+          $http(req)
+            .success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+              console.log('success http post')
+            }).
+            error(function(data, status, headers, config) {
+              console.log('error http post')
+            });
+        }
+
+      });
+    }
+   
   }
+})
+
+.factory('Create', function($http, Players, Questions) {
+  return {}
+    
 })
 
 .factory('facebook', function(Players, $http, $cookieStore, $state) {
