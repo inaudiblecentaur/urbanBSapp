@@ -134,6 +134,7 @@ angular.module('starter.controllers', ['starter.services'])
       console.log($scope.gameData)
       $http.get('http://urbanbs.herokuapp.com/currentQuestion')
         .success(function(data, status, headers, config) {
+          console.log(data);
           $scope.gameData.currentQuestion = data;
           console.log($scope.gameData)
     })
