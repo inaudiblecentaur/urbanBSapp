@@ -30,14 +30,6 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     controller: 'AppCtrl'
   })
 
-  .state('app.search', {
-    url: "/search",
-    views: {
-      'menuContent': {
-        templateUrl: "templates/search.html"
-      }
-    }
-  })
   .state('app.login', {
     url: "/login",
     views: {
@@ -69,6 +61,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     views: {
       'menuContent': {
         templateUrl: "templates/game.html",
+        controller: 'GameCtrl'
+      }
+    }
+  })
+  .state('app.dealer', {
+    url: "/games/:gameId/dealer",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/dealer.html",
         controller: 'GameCtrl'
       }
     }

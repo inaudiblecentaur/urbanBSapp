@@ -1,0 +1,20 @@
+<ion-view view-title="{{gameData.name}}">
+  <ion-content>
+    <h1>{{gameData.name}}</h1>
+    <div class="card">
+    <div class="item item-divider">
+      <b>You're the dealer!</b> Here's your word:
+    </div>
+      <div class="item item-text-wrap">
+        <h1>{{gameData.currentQuestion}}</h1>
+      </div>
+    </div>
+    <div class="col col-75 col-offset-10">
+      <button class="button button-calm">
+        Use dictionary definition
+      </button><button class="button button-calm">
+        Supply a definition
+      </button>
+    </div>
+  </ion-content>
+</ion-view>
