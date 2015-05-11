@@ -1,12 +1,12 @@
-<ion-view view-title="{{gameData.name}}">
-  <ion-content>
-    <h1>{{gameData.name}}</h1>
+
+
+
     <div class="card">
     <div class="item item-divider">
       <b>You're the dealer!</b> Here's your word:
     </div>
       <div class="item item-text-wrap">
-        <h1>{{gameData.currentQuestion}}</h1>
+        <h1>{{gameData.currentQuestion.definition}}</h1>
       </div>
     </div>
     <div class="col col-75 col-offset-10">
@@ -16,5 +16,3 @@
         Supply a definition
       </button>
     </div>
-  </ion-content>
-</ion-view>

@@ -1,10 +1,12 @@
 <ion-view view-title="Lobby">
   <ion-content>
-  <button class="button button-full button-positive" ng-click="createGame()">
+  <ion-item href="#/app/create">
+  <button class="button button-full button-positive">
     Create New Game
   </button>
+  </ion-item>
     <ion-list>
-      <ion-item ng-repeat="game in games" href="#/app/games/{{game.gameId}}">
+      <ion-item ng-repeat="game in games" href="#/app/games/{{game.name}}">
       <i class="icon ion-person-stalker"></i>
         {{game.name}}
         <span class="secondaryGameInfo pull-right">Round {{game.round}}</span>

@@ -30,6 +30,17 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     controller: 'AppCtrl'
   })
 
+
+  .state('app.create', {
+    url: "/create",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/create.html",
+        controller: 'CreateCtrl'
+      }
+    }
+  })
+  
   .state('app.login', {
     url: "/login",
     views: {
@@ -57,7 +68,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
   .state('app.game', {
-    url: "/games/:gameId",
+    url: "/games/:id",
     views: {
       'menuContent': {
         templateUrl: "templates/game.html",
@@ -76,7 +87,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/browse');
-});
+})
+
 
 var oauthApp = angular.module('oauthApp', ['ngCookies', 'ionic', 'oauthApp.controllers']);
  
