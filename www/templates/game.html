@@ -1,6 +1,6 @@
 <ion-view view-title="{{gameData.name}}">
   <ion-content>
-    <div dealer-view></div>
+    <div ng-show="isLoaded && isDealer()" dealer-view></div>
 
     <div class="card">
     <div class="item item-divider">

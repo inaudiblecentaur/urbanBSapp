@@ -61,7 +61,7 @@ angular.module('starter.controllers', ['starter.services'])
            'Content-Type': 'application/json',
          },
 
-         data: {"name": $scope.gameObj.gameName, "gameId": 0, "players": $scope.invitedPlayers, "currentQuestion": "null", 
+         data: {"name": $scope.gameObj.gameName, "players": $scope.invitedPlayers, "currentQuestion": "null", 
                 "round": 0, "roundLimit": $scope.gameObj.roundLimit, "dealer": "null"}
         }
 
@@ -111,19 +111,24 @@ angular.module('starter.controllers', ['starter.services'])
   var url = 'http://urbanbs.herokuapp.com/listGames/';
 
   $scope.invitations = [];
+  $scope.isLoaded = false;
 
   // side menu needed for inviting player during game
   $scope.invitePlayer = Game.invitePlayer;
 
   // set index of game from hyperlink clicked in lobby
-  var index = +[$stateParams['gameId']];
+  var index = $stateParams['id'];
 
   // initially load page with available games
    $http.get(url)
     .success(function(data, status, headers, config) {
-
-      $scope.gameData = data[index];
-      $scope.getQuestion()
+      data.forEach(function(game) {
+        if (game.name === index) {
+          $scope.gameData = game;
+          $scope.getQuestion()
+          $scope.isLoaded = true;
+        }
+      })
       // $scope.getInvites();
     })
     .error(function(data, status, headers, config) {
@@ -176,6 +181,15 @@ angular.module('starter.controllers', ['starter.services'])
       console.log($scope.gameData);
       var id = localStorage.gameId;
       $scope.gameData.players[+id].answer = false;
+    }
+
+    $scope.isDealer = function() {
+      var id = localStorage.gameId;
+      if ($scope.gameData.players[+id].isDealer === true) {
+        $scope.gameData.dealer = $scope.gameData.players[+id].firstName;
+        return true;
+      }
+      else return false;
     }
 
 })
