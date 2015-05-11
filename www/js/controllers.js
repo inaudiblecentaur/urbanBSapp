@@ -203,25 +203,28 @@ angular.module('starter.controllers', ['starter.services'])
   })
 
 
-  .controller('LoginCtrl', function ($scope, $state, facebook) {
-    $scope.fbLogin = facebook.fbLogin;
+  .controller('LoginCtrl', function ($scope, $state, facebook, $cordovaOauth) {
+    //$scope.fbLogin = facebook.fbLogin;
 
-    $scope.getLoginStatus = facebook.getLoginStatus;
+    // $scope.getLoginStatus = facebook.getLoginStatus;
+
+    $scope.login = function() {
+        $cordovaOauth.facebook("1592322804384728", ["email"]).then(function(result) {
+          var accessToken = result.access_token;
+          facebook.getUserInfo(accessToken);
+        }, function(error) {
+          console.log(error);
+        });
+      };
+
+
+
     $scope.getCookie = function (c_name) {
-      console.log(localStorage);
+      console.log(JSON.stringify(localStorage));
     if (typeof localStorage != "undefined") {
     //    return localStorage.getItem(c_name);
     console.log(localStorage);
     }
-    // else {
-    //     var c_start = document.cookie.indexOf(c_name + "=");
-    //     if (document.cookie.length > 0) {
-    //         if (c_start !== -1) {
-    //             return getCookieSubstring(c_start, c_name);
-    //         }
-    //     }
-    //     return "";
-    // }
 }
     
   });
