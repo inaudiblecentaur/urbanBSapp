@@ -37,7 +37,6 @@ angular.module('starter.controllers', ['starter.services'])
 
   $http.get('http://urbanbs.herokuapp.com/listGames')
     .success(function(data, status, headers, config) {
-      console.log(data)
       $scope.games = data;
     })
     .error(function(data, status, headers, config) {
@@ -50,7 +49,7 @@ angular.module('starter.controllers', ['starter.services'])
 
 .controller('CreateCtrl', function($scope, $stateParams, $http, Game, Players, facebook) {
 
-  $scope.invitedPlayers = [];
+  $scope.invitedPlayers = {};
   $scope.gameObj = {};
 
   $scope.createGame = function() {
@@ -62,7 +61,7 @@ angular.module('starter.controllers', ['starter.services'])
            'Content-Type': 'application/json',
          },
 
-         data: {"name": $scope.gameObj.gameName, "gameId": 0, "players": $scope.playerList, "currentQuestion": "null", 
+         data: {"name": $scope.gameObj.gameName, "gameId": 0, "players": $scope.invitedPlayers, "currentQuestion": "null", 
                 "round": 0, "roundLimit": $scope.gameObj.roundLimit, "dealer": "null"}
         }
 
@@ -85,6 +84,7 @@ angular.module('starter.controllers', ['starter.services'])
       $http.get('http://urbanbs.herokuapp.com/listUsers')
       .success(function(data, status, headers, config) {
         $scope.playerList = data;
+        console.log($scope.playerList);
       })
       .error(function(data, status, headers, config) {
         console.log(error)
@@ -94,11 +94,12 @@ angular.module('starter.controllers', ['starter.services'])
     $scope.invitePlayer = function(fbId) {
       $scope.playerList.forEach(function(player) {
         if (player.fbId === fbId) {
-          $scope.invitedPlayers.push(player);
+          $scope.invitedPlayers[fbId] = player;
         }
       });
-
     };
+
+   
 
     $scope.getPlayers();
     
@@ -122,8 +123,8 @@ angular.module('starter.controllers', ['starter.services'])
     .success(function(data, status, headers, config) {
 
       $scope.gameData = data[index];
-      $scope.getQuestion();
-      $scope.getInvites();
+      $scope.getQuestion()
+      // $scope.getInvites();
     })
     .error(function(data, status, headers, config) {
       console.log(error)
@@ -134,9 +135,8 @@ angular.module('starter.controllers', ['starter.services'])
       console.log($scope.gameData)
       $http.get('http://urbanbs.herokuapp.com/currentQuestion')
         .success(function(data, status, headers, config) {
-          console.log(data);
           $scope.gameData.currentQuestion = data;
-          console.log($scope.gameData)
+          console.log(localStorage);
     })
     .error(function(data, status, headers, config) {
       console.log(error)
@@ -163,7 +163,31 @@ angular.module('starter.controllers', ['starter.services'])
           console.log('error')
         });
     };
+
+    $scope.voteTrue = function() {
+      console.log(localStorage);
+      console.log($scope.gameData);
+      var id = localStorage.gameId;
+      $scope.gameData.players[id].answer = true;
+    }
+
+    $scope.voteFalse = function() {
+      console.log(localStorage);
+      console.log($scope.gameData);
+      var id = localStorage.gameId;
+      $scope.gameData.players[+id].answer = false;
+    }
+
 })
+
+
+
+  .directive('dealerView', function() {
+    return {
+      templateUrl: 'templates/dealer.html'
+    };
+  })
+
 
   .controller('LoginCtrl', function ($scope, $state, facebook) {
     $scope.fbLogin = facebook.fbLogin;

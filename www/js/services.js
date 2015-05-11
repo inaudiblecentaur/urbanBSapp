@@ -131,7 +131,7 @@ angular.module('starter.services', ['ngCookies'])
                     Players.storePlayer({firstName: response.first_name, lastName: response.last_name, fbId: response.id, imageUrl: user.profilePic})
                     if(typeof localStorage != "undefined") {
                       alert("This place has local storage!");
-                      localStorage.setItem(response.first_name, response.id);
+                      localStorage.setItem('gameId', response.id);
                     }
                     else
                     {

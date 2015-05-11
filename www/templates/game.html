@@ -1,6 +1,7 @@
 <ion-view view-title="{{gameData.name}}">
   <ion-content>
-    <h1>{{gameData.name}}</h1>
+    <div dealer-view></div>
+
     <div class="card">
     <div class="item item-divider">
       <b>{{gameData.dealer}}</b> submitted a word:
@@ -11,9 +12,9 @@
       </div>
     </div>
     <div class="col col-75 col-offset-10">
-      <button class="button button-balanced trueOrFalse" >
+      <button class="button button-balanced trueOrFalse" ng-click="voteTrue()">
         True
-      </button><button class="button button-assertive trueOrFalse">
+      </button><button class="button button-assertive trueOrFalse" ng-click="voteFalse()">
         False
       </button>
     </div>
