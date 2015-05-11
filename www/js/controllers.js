@@ -32,9 +32,10 @@ angular.module('starter.controllers', ['starter.services'])
     }, 1000);
   };
 })
+
 .controller('LobbyCtrl', function($scope, $stateParams, $http) {
 
-  $http.get('http://urbanbs.herokuapp.com/gameData')
+  $http.get('http://urbanbs.herokuapp.com/listGames')
     .success(function(data, status, headers, config) {
       $scope.games = data;
     })
@@ -44,15 +45,27 @@ angular.module('starter.controllers', ['starter.services'])
 
      
 
-    $scope.createGame = function() {
+})
+
+.controller('CreateCtrl', function($scope, $stateParams, $http, Game, Players, facebook) {
+
+  $scope.invitedPlayers = {};
+  $scope.gameObj = {};
+
+  $scope.createGame = function() {
+
       var req = {
         method: 'POST',
          url: 'http://urbanbs.herokuapp.com/addGame',
          headers: {
            'Content-Type': 'application/json',
          },
-         data: {"name": "Ray's game", "gameId": 1, "players": ["ray"], "currentQuestion": "null", "round": 0, "dealer": "null"}
+
+         data: {"name": $scope.gameObj.gameName, "players": $scope.invitedPlayers, "currentQuestion": "null", 
+                "round": 0, "roundLimit": $scope.gameObj.roundLimit, "dealer": "null"}
         }
+
+        console.log(req.data)
 
       $http(req)
         .success(function(data, status, headers, config) {
@@ -62,28 +75,61 @@ angular.module('starter.controllers', ['starter.services'])
       }).
       error(function(data, status, headers, config) {
       console.log('error http post')
+
       });
-    }
+    };
+
+
+  $scope.getPlayers = function() {
+      $http.get('http://urbanbs.herokuapp.com/listUsers')
+      .success(function(data, status, headers, config) {
+        $scope.playerList = data;
+        console.log($scope.playerList);
+      })
+      .error(function(data, status, headers, config) {
+        console.log(error)
+      });
+    };
+
+    $scope.invitePlayer = function(fbId) {
+      $scope.playerList.forEach(function(player) {
+        if (player.fbId === fbId) {
+          $scope.invitedPlayers[fbId] = player;
+        }
+      });
+    };
+
+   
+
+    $scope.getPlayers();
+    
 
 })
 
 .controller('GameCtrl', function($scope, $stateParams, $http, Game, Players, facebook){
 
-  var url = 'http://urbanbs.herokuapp.com/gameData/';
+  var url = 'http://urbanbs.herokuapp.com/listGames/';
 
-  // playerinvite object contains input from user to invite
   $scope.invitations = [];
+  $scope.isLoaded = false;
+
+  // side menu needed for inviting player during game
+  $scope.invitePlayer = Game.invitePlayer;
 
   // set index of game from hyperlink clicked in lobby
-  var index = +[$stateParams['gameId']];
+  var index = $stateParams['id'];
 
   // initially load page with available games
    $http.get(url)
     .success(function(data, status, headers, config) {
-
-      $scope.gameData = data[index];
-      $scope.getQuestion();
-      $scope.getInvites();
+      data.forEach(function(game) {
+        if (game.name === index) {
+          $scope.gameData = game;
+          $scope.getQuestion()
+          $scope.isLoaded = true;
+        }
+      })
+      // $scope.getInvites();
     })
     .error(function(data, status, headers, config) {
       console.log(error)
@@ -92,10 +138,15 @@ angular.module('starter.controllers', ['starter.services'])
 
     $scope.getQuestion = function() {
       console.log($scope.gameData)
-      var currentQuestion = Game.getQuestion();
-      console.log(currentQuestion)
-      $scope.gameData.currentQuestion = currentQuestion.question;
-      $scope.gameData.currentAnswer = currentQuestion.answer;
+      $http.get('http://urbanbs.herokuapp.com/currentQuestion')
+        .success(function(data, status, headers, config) {
+          $scope.gameData.currentQuestion = data;
+          console.log(localStorage);
+    })
+    .error(function(data, status, headers, config) {
+      console.log(error)
+  });
+
     },
 
       $scope.getInvites = function() {
@@ -118,5 +169,59 @@ angular.module('starter.controllers', ['starter.services'])
         });
     };
 
+    $scope.voteTrue = function() {
+      console.log(localStorage);
+      console.log($scope.gameData);
+      var id = localStorage.gameId;
+      $scope.gameData.players[id].answer = true;
+    }
 
-});
+    $scope.voteFalse = function() {
+      console.log(localStorage);
+      console.log($scope.gameData);
+      var id = localStorage.gameId;
+      $scope.gameData.players[+id].answer = false;
+    }
+
+    $scope.isDealer = function() {
+      var id = localStorage.gameId;
+      if ($scope.gameData.players[+id].isDealer === true) {
+        $scope.gameData.dealer = $scope.gameData.players[+id].firstName;
+        return true;
+      }
+      else return false;
+    }
+
+})
+
+
+
+  .directive('dealerView', function() {
+    return {
+      templateUrl: 'templates/dealer.html'
+    };
+  })
+
+
+  .controller('LoginCtrl', function ($scope, $state, facebook) {
+    $scope.fbLogin = facebook.fbLogin;
+
+    $scope.getLoginStatus = facebook.getLoginStatus;
+    $scope.getCookie = function (c_name) {
+      console.log(localStorage);
+    if (typeof localStorage != "undefined") {
+    //    return localStorage.getItem(c_name);
+    console.log(localStorage);
+    }
+    // else {
+    //     var c_start = document.cookie.indexOf(c_name + "=");
+    //     if (document.cookie.length > 0) {
+    //         if (c_start !== -1) {
+    //             return getCookieSubstring(c_start, c_name);
+    //         }
+    //     }
+    //     return "";
+    // }
+}
+    
+  });

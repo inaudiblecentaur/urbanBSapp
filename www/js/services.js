@@ -2,11 +2,11 @@
 angular.module('starter.services', ['ngCookies'])
 
 // .factory('Question', function($resource) {
-//   return $resource('http://localhost:3000/questions/:qId');
+//   return $resource('http://urbanbs.herokuapp.com/questions/:qId');
 // })
 
 // .factory('Player', function($resource) {
-//   return $resource('http://localhost:3000/players/:facebookId');
+//   return $resource('http://urbanbs.herokuapp.com/players/:facebookId');
 // })
 
 .factory('Players', function($http) {
@@ -33,36 +33,64 @@ angular.module('starter.services', ['ngCookies'])
       error(function(data, status, headers, config) {
       console.log('error http post')
       });
-    }
+    },
   }
 
 })
 
-.factory('Questions', function($http) {
-  return {
-    '0': {question: 'Office Hit List', answer: 'a list of people with whom you work and whom you would also like to murder'},
-    '1': {question: 'Barithmetic', answer: 'the math a younger girl does when she meets an older guy in a bar, where she finds how old she was when you were her age'},
-    '2': {question: 'Thirst Trapping', answer: 'the act of looking very attractive to the opposing gender to lead them on to rejection'} 
-  }
-})
-
-.factory('Game', function($http, Players, Questions) {
+.factory('Game', function($http, Players) {
 
   return {
 
-    invitePlayer: function(username) {
-      console.log(username + " " + Players.playersList)
-      if  (Players.playersList[username]) {
-          return Players.playersList[username];
-      }
-        else return "Not found";
+    invitePlayer: function(id, playerList) {
+      console.log(id)
+      if (typeof id === "number") console.log('number');
+      else if (typeof id === "string") {
+        if  (playerList[id]) {
+            return playerList[id];
+        }
+          else return "Not found";
+        }
       },
 
-    getQuestion: function() {
-      var count = 0;
-      return Questions[count++];
-    }      
+    // getQuestion: function() {
+
+    // },
+
+    invitePlayer: function(fbId) {
+      console.log($scope.playerList);
+      $scope.playerList.forEach(function(player) {
+        if (player.fbId === fbId) {
+          player.answer = null;
+          var req = {
+            method: 'POST',
+            url: 'http://urbanbs.herokuapp.com/invitePlayer',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            data: player
+          }
+
+          $http(req)
+            .success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+              console.log('success http post')
+            }).
+            error(function(data, status, headers, config) {
+              console.log('error http post')
+            });
+        }
+
+      });
+    }
+   
   }
+})
+
+.factory('Create', function($http, Players) {
+  return {}
+    
 })
 
 .factory('facebook', function(Players, $http, $cookieStore, $state) {
@@ -101,28 +129,23 @@ angular.module('starter.services', ['ngCookies'])
                     user.profilePic = picResponse.data.url;
                     $cookieStore.put('userInfo', user);
                     Players.storePlayer({firstName: response.first_name, lastName: response.last_name, fbId: response.id, imageUrl: user.profilePic})
+                    if(typeof localStorage != "undefined") {
+                      alert("This place has local storage!");
+                      localStorage.setItem('gameId', response.id);
+                    }
+                    else
+                    {
+                        alert("No local storage here");
+                        document.cookie = c_name + "=" + escape(value);
+                        // ((expiredays === null) ? "" : ";expires=" + exdate.toUTCString());
+                    }
+                    $state.go('app.lobby')
  
                 });
             });
         }
     },
-
-    getLoginStatus: FB.getLoginStatus(function(response) {
-      if (response.status === 'connected') {
-          var uid = response.authResponse.userID;
-          var accessToken = response.authResponse.accessToken;
-      }
-
-      else if (response.status === 'not_authorized') {
-        console.log('not authorized')
-        // the user is logged in to Facebook, 
-        // but has not authenticated your app
-      } 
-
-      else {
-        console.log('the user is not logged in');
-      }
-    })
+   
   }
 })
 
