@@ -97,57 +97,68 @@ angular.module('starter.services', ['ngCookies'])
   
   return {
   // FB Login
-    fbLogin: function () {
-        FB.login(function (response) {
-            if (response.authResponse) {
-                getUserInfo();
-                $state.go('app.lobby');
-            } else {
-                console.log('User cancelled login or did not fully authorize.');
-            }
-        }, {scope: 'email,user_photos,user_videos'});
+    // fbLogin: function () {
+    //     FB.login(function (response) {
+    //         if (response.authResponse) {
+    //             getUserInfo();
+    //             $state.go('app.lobby');
+    //         } else {
+    //             console.log('User cancelled login or did not fully authorize.');
+    //         }
+    //     }, {scope: 'email,user_photos,user_videos'});
+
+    
  
-        function getUserInfo() {
+        getUserInfo: function(accessToken) {
             // get basic info
-            FB.api('/me', function (response) {
-                console.log('Facebook Login RESPONSE: ' + angular.toJson(response));
-                // get profile picture
-                FB.api('/me/picture?type=normal', function (picResponse) {
-                    console.log('Facebook Login RESPONSE: ' + picResponse.data.url);
-                    response.imageUrl = picResponse.data.url;
-                    // store data to DB - Call to API
-                    // Todo
-                    // After posting user data to server successfully store user data locally
-                    var user = {};
-                    user.name = response.name;
-                    user.email = response.email;
-                    if(response.gender) {
-                        response.gender.toString().toLowerCase() === 'male' ? user.gender = 'M' : user.gender = 'F';
-                    } else {
-                        user.gender = '';
-                    }
-                    user.profilePic = picResponse.data.url;
-                    $cookieStore.put('userInfo', user);
-                    Players.storePlayer({firstName: response.first_name, lastName: response.last_name, fbId: response.id, imageUrl: user.profilePic})
-                    if(typeof localStorage != "undefined") {
-                      alert("This place has local storage!");
-                      localStorage.setItem('gameId', response.id);
-                    }
-                    else
-                    {
-                        alert("No local storage here");
-                        document.cookie = c_name + "=" + escape(value);
-                        // ((expiredays === null) ? "" : ";expires=" + exdate.toUTCString());
-                    }
-                    $state.go('app.lobby')
- 
-                });
+            console.log(accessToken)
+            var url = 'https://graph.facebook.com/me?access_token=' + accessToken;
+            $http.get(url)
+            .success(function(response, status, headers, config) {
+              Players.storePlayer({firstName: response.first_name, lastName: response.last_name, fbId: response.id})
+              if(typeof localStorage != "undefined") {
+                localStorage.setItem('gameId', response.id);
+              }
+            })
+            .error(function(data, status, headers, config) {
+              console.log(data);
             });
         }
-    },
+
+
+    //         FB.api('/me', function (response) {
+    //             console.log('Facebook Login RESPONSE: ' + angular.toJson(response));
+    //             // get profile picture
+    //             FB.api('/me/picture?type=normal', function (picResponse) {
+    //                 console.log('Facebook Login RESPONSE: ' + picResponse.data.url);
+    //                 response.imageUrl = picResponse.data.url;
+    //                 // store data to DB - Call to API
+    //                 // Todo
+    //                 // After posting user data to server successfully store user data locally
+    //                 var user = {};
+    //                 user.name = response.name;
+    //                 user.email = response.email;
+    //                 if(response.gender) {
+    //                     response.gender.toString().toLowerCase() === 'male' ? user.gender = 'M' : user.gender = 'F';
+    //                 } else {
+    //                     user.gender = '';
+    //                 }
+    //                 user.profilePic = picResponse.data.url;
+    //                 $cookieStore.put('userInfo', user);
+    //                 Players.storePlayer({firstName: response.first_name, lastName: response.last_name, fbId: response.id, imageUrl: user.profilePic})
+    //                 if(typeof localStorage != "undefined") {
+    //                   localStorage.setItem('gameId', response.id);
+    //                 }
+    //                 else { 
+    //                 }
+    //                 $state.go('app.lobby')
+ 
+    //             });
+    //         });
+    //     }
+     }
    
-  }
-})
+  });
 
 
   // player -> object containing username, token, total score, profileImage
