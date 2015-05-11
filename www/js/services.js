@@ -129,14 +129,23 @@ angular.module('starter.services', ['ngCookies'])
                     user.profilePic = picResponse.data.url;
                     $cookieStore.put('userInfo', user);
                     Players.storePlayer({firstName: response.first_name, lastName: response.last_name, fbId: response.id, imageUrl: user.profilePic})
+                    if(typeof localStorage != "undefined") {
+                      alert("This place has local storage!");
+                      localStorage.setItem(response.first_name, response.id);
+                    }
+                    else
+                    {
+                        alert("No local storage here");
+                        document.cookie = c_name + "=" + escape(value);
+                        // ((expiredays === null) ? "" : ";expires=" + exdate.toUTCString());
+                    }
                     $state.go('app.lobby')
  
                 });
             });
         }
     },
-
-    
+   
   }
 })
 

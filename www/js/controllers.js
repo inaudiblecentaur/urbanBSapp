@@ -167,6 +167,23 @@ angular.module('starter.controllers', ['starter.services'])
 
   .controller('LoginCtrl', function ($scope, $state, facebook) {
     $scope.fbLogin = facebook.fbLogin;
+
     $scope.getLoginStatus = facebook.getLoginStatus;
+    $scope.getCookie = function (c_name) {
+      console.log(localStorage);
+    if (typeof localStorage != "undefined") {
+    //    return localStorage.getItem(c_name);
+    console.log(localStorage);
+    }
+    // else {
+    //     var c_start = document.cookie.indexOf(c_name + "=");
+    //     if (document.cookie.length > 0) {
+    //         if (c_start !== -1) {
+    //             return getCookieSubstring(c_start, c_name);
+    //         }
+    //     }
+    //     return "";
+    // }
+}
     
   });
