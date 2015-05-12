@@ -3,8 +3,20 @@
 
     <ion-list>
       <ion-item ng-repeat="player in playerList" ng-click="invitePlayer({{player.fbId}})">
-        <h3>{{player.firstName}} {{player.lastName}}</h3>
-      <img src="{{player.imageUrl}}">
+        <div class="card col-80 col-offset-10">
+          <div class="item item-text-wrap">
+            <div class="row">
+              <div class="col col-25">
+                <img src="{{player.imageUrl}}">
+              </div>
+              <div class="col-50 col-offset-20 col">
+                <h3>{{player.firstName}} {{player.lastName}}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <h3>{{player.firstName}} {{player.lastName}}</h3> 
+      <img src="{{player.imageUrl}}">-->
       </ion-item>
     </ion-list>
     <p>{{gameData.currentQuestion}}</p>
@@ -15,11 +27,11 @@
           <span class="input-label">Add player</span>
           <input type="text" ng-model="playerInvite.firstName">
         </label>
-
+        <label class="item item-input">
           <span class="input-label">Game Name</span>
           <input type="text" ng-model="gameObj.gameName">
         </label>
-          <label class="item item-input">
+        <label class="item item-input">
           <span class="input-label">Round Limit</span>
           <input type="text" ng-model="gameObj.roundLimit">
         </label>
