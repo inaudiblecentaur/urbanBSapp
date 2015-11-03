@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['starter.services'])
+angular.module('starter.controllers', ['ngCordova'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
   // Form data for the login modal
@@ -42,9 +42,6 @@ angular.module('starter.controllers', ['starter.services'])
     .error(function(data, status, headers, config) {
       console.log(data);
     });
-
-     
-
 })
 
 .controller('CreateCtrl', function($scope, $stateParams, $http, Game, Players, facebook) {
@@ -61,7 +58,7 @@ angular.module('starter.controllers', ['starter.services'])
            'Content-Type': 'application/json',
          },
 
-         data: {"name": $scope.gameObj.gameName, "players": $scope.invitedPlayers, "currentQuestion": "null", 
+         data: {"name": $scope.gameObj.gameName, "players": $scope.invitedPlayers, "currentQuestion": "null",
                 "round": 0, "roundLimit": $scope.gameObj.roundLimit, "dealer": "null"}
         }
 
@@ -99,10 +96,10 @@ angular.module('starter.controllers', ['starter.services'])
       });
     };
 
-   
+
 
     $scope.getPlayers();
-    
+
 
 })
 
@@ -149,8 +146,8 @@ angular.module('starter.controllers', ['starter.services'])
 
     },
 
-      $scope.getInvites = function() {
-      
+    $scope.getInvites = function() {
+
       var url = 'http://urbanbs.herokuapp.com/invites'
       console.log('inviting players')
       $http.get(url)
@@ -168,6 +165,7 @@ angular.module('starter.controllers', ['starter.services'])
           console.log('error')
         });
     };
+  })
 
     $scope.voteTrue = function() {
       console.log(localStorage);
@@ -193,35 +191,37 @@ angular.module('starter.controllers', ['starter.services'])
     }
 
 })
-
-
-
   .directive('dealerView', function() {
     return {
       templateUrl: 'templates/dealer.html'
     };
   })
+.controller('LoginCtrl', function($scope, $cordovaOauth, $http){
+  $scope.test = "hello!"
+  $scope.login = function() {
+    console.log("Login!");
+    console.dir($location);
+    $cordovaOauth.facebook("1592322804384728", ["email"]).then(function(result) {
+      //result only contains access token.
+      var accessToken = result.access_token;
+      $http.post('/signup', {fbId: accessToken})
+        .success(function(data, status, headers, config){
 
+        })
+        .error(function(data, status, headers, config){
 
-  .controller('LoginCtrl', function ($scope, $state, facebook) {
-    $scope.fbLogin = facebook.fbLogin;
-
-    $scope.getLoginStatus = facebook.getLoginStatus;
-    $scope.getCookie = function (c_name) {
+        });
+      console.log(accessToken);
+    }, function(error) {
+      alert("There was a problem signing in!  See the console for logs.");
+      console.log(error);
+    });
+  };
+  $scope.getCookie = function(c_name) {
       console.log(localStorage);
     if (typeof localStorage != "undefined") {
     //    return localStorage.getItem(c_name);
     console.log(localStorage);
     }
-    // else {
-    //     var c_start = document.cookie.indexOf(c_name + "=");
-    //     if (document.cookie.length > 0) {
-    //         if (c_start !== -1) {
-    //             return getCookieSubstring(c_start, c_name);
-    //         }
-    //     }
-    //     return "";
-    // }
-}
-    
-  });
+  };
+});

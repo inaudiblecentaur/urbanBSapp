@@ -1,32 +1,22 @@
-
-
-<ion-view title="Login" id="welcome-view" hide-nav-bar="false">
-    <ion-content>
-        <div  class="logo-welcome"></div>
-        <div class="login-btns">
-
-            </div>
-            <hr id="login-divider" />
-
-        </div>
-        <div>
-          <label class="item">
-          <button class="button button-block button-positive" ng-click="fbLogin()">Sign In With Facebook</button>
-        </label>
-        </div>
-
-        <div>
-          <label class="item">
-          <button class="button button-block button-positive" ng-click="setCookie()">Set Cookie</button>
-        </label>
-        </div>
-
-        <div>
-          <label class="item">
-          <button class="button button-block button-positive" ng-click="getCookie()">Get Cookie</button>
-        </label>
-        </div>
-
-    </ion-content>
-</ion-view>
-
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">Login</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeLogin()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content ng-controller="LoginCtrl">
+    <p style="text-align: center;">This is the login page</p>
+    <button ng-click="login()" class="button button-block button-balanced">Facebook Login</button>
+    <div>
+      <label class="item">
+      <button class="button button-block button-positive" ng-click="setCookie()">Set Cookie</button>
+    </label>
+    </div>
+    <div>
+      <label class="item">
+      <button class="button button-block button-positive" ng-click="getCookie()">Get Cookie</button>
+    </label>
+    </div>
+  </ion-content>
+</ion-modal-view>
